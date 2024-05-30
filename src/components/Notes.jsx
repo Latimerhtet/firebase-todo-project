@@ -1,19 +1,14 @@
 import React from "react";
-
-const Notes = ({ notes, errorMessage }) => {
+import Note from "./Note";
+const Notes = ({ notes, errorMessage, getNotes }) => {
   return (
     <>
       {errorMessage !== "" ? (
         <p className="error">{errorMessage}</p>
       ) : (
         <div className="notes-div">
-          {notes.map((note, index) => {
-            return (
-              <div className="note" key={index}>
-                <input id={index} type="checkbox" />
-                <label htmlFor={index}>{note}</label>
-              </div>
-            );
+          {notes.map((note) => {
+            return <Note key={note.key} data={note} getNotes={getNotes} />;
           })}
         </div>
       )}

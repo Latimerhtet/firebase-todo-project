@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import AddNote from "./components/AddNote";
 import Navbar from "./components/Navbar";
 import Notes from "./components/Notes";
-import { faL } from "@fortawesome/free-solid-svg-icons";
+import Intro from "./components/Intro";
+
 const App = () => {
   const [notes, setNotes] = useState([]);
-  const [err, setErr] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [intro, setIntro] = useState(false);
   useEffect(() => {
     getNotes();
   }, []);
@@ -23,34 +24,42 @@ const App = () => {
       } else {
         const data = await response.json();
         const myNotes = [];
-        for (let datum in data) {
-          myNotes.push(data[datum]);
+        for (let key in data) {
+          myNotes.push({
+            key,
+            datum: data[key],
+          });
         }
+        console.log(myNotes);
         setNotes(myNotes);
       }
-    } catch (error) {
-      setErr(error.message);
+    } catch (err) {
+      setError(err.message);
     }
     setLoading(false);
   };
   return (
     <div>
-      <Navbar getNotes={getNotes} />
+      <Navbar notes={notes} />
       <AddNote getNotes={getNotes} />
-      {loading ? (
+      {loading && !error && (
         <div className="center">
-          <div className="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      ) : (
-        <div className="notes-container">
-          <Notes errorMessage={err} notes={notes} />
+          <span className="loader"></span>
         </div>
       )}
+      {!loading && (
+        <div className="notes-container">
+          <Notes errorMessage={error} notes={notes} getNotes={getNotes} />
+        </div>
+      )}
+      {notes.length == 0 && (
+        <div>
+          <p style={{ textAlign: "center" }}>
+            Your list is empty! Start to note your todo!
+          </p>
+        </div>
+      )}
+      {!intro && <Intro setIntro={setIntro} introduction={intro} />}
     </div>
   );
 };

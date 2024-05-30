@@ -1,12 +1,11 @@
 import React from "react";
 
-const Navbar = ({ getNotes }) => {
+const Navbar = ({ notes }) => {
   return (
     <section className="navbar">
       <h2 className="navHeading">My--Note!</h2>
-      <button onClick={getNotes} className="button">
-        Refresh Notes
-      </button>
+
+      <div className="button">Your notes ({notes.length})</div>
     </section>
   );
 };

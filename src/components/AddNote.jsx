@@ -7,24 +7,28 @@ const AddNote = ({ getNotes }) => {
   const [loading, isLoading] = useState(false);
   const addNote = async (e) => {
     e.preventDefault();
-    try {
-      isLoading(true);
-      await fetch(
-        "https://my-firenote-d5c0e-default-rtdb.firebaseio.com/notes.json",
-        {
-          method: "POST",
-          body: JSON.stringify(note),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      setNote("");
-      isLoading(false);
-      getNotes();
-    } catch (err) {
-      alert("Something went wrong!!");
-      setError(err);
+    if (note.trim().length !== 0) {
+      try {
+        isLoading(true);
+        await fetch(
+          "https://my-firenote-d5c0e-default-rtdb.firebaseio.com/notes.json",
+          {
+            method: "POST",
+            body: JSON.stringify(note),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setNote("");
+        isLoading(false);
+        getNotes();
+      } catch (err) {
+        alert("Something went wrong!!");
+        setError(err);
+      }
+    } else {
+      alert("You should type your desired note!");
     }
   };
   return (
@@ -39,15 +43,8 @@ const AddNote = ({ getNotes }) => {
         <button type="submit" className="button">
           <FontAwesomeIcon icon={faSquarePlus} />
         </button>
+        {loading && <span class="loader"></span>}
       </form>
-      {loading && (
-        <div className="lds-ring">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      )}
     </div>
   );
 };
