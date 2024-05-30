@@ -171,3 +171,14 @@ html {
     transform: scale(1.2);
   }
 }
+
+@media (max-width: 600px) {
+  .addYourNoteArea input {
+    width: 325px;
+  }
+}
+@media (max-width: 400px) {
+  .addYourNoteArea input {
+    width: 250px;
+  }
+}
