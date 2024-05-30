@@ -42,7 +42,7 @@ const App = () => {
     <div>
       <Navbar notes={notes} />
       <AddNote getNotes={getNotes} />
-      {loading && !error && (
+      {loading && (
         <div className="center">
           <span className="loader"></span>
         </div>
